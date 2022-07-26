@@ -7,9 +7,6 @@ int main()
 {
     struct Window *win = libwin_create_win("Window test", 800, 600);
 
-    Atom delete_msg = XInternAtom(win->dis, "WM_DELETE_WINDOW", False);
-    XSetWMProtocols(win->dis, win->win, &delete_msg, 1);
-
     XEvent evt;
     KeySym key;
     char text[255];
@@ -20,11 +17,8 @@ int main()
     {
         XNextEvent(win->dis, &evt);
 
-        if (evt.type == ClientMessage)
-        {
-            if (evt.xclient.data.l[0] == delete_msg)
-                running = false;
-        }
+        if (libwin_should_close(win, &evt))
+            running = false;
 
         if (evt.type == Expose && evt.xexpose.count == 0)
             libwin_redraw(win);

@@ -22,6 +22,9 @@ struct Window *libwin_create_win(const char *title, int width, int height)
     XMapRaised(w->dis, w->win);
     XFlush(w->dis);
 
+    w->del_msg = XInternAtom(w->dis, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(w->dis, w->win, &w->del_msg, 1);
+
     return w;
 }
 
@@ -35,5 +38,17 @@ void libwin_destroy_win(struct Window *w)
 
 void libwin_redraw(struct Window *w)
 {
+}
+
+
+bool libwin_should_close(struct Window *w, XEvent *evt)
+{
+    if (evt->type == ClientMessage)
+    {
+        if (evt->xclient.data.l[0] == w->del_msg)
+            return true;
+    }
+
+    return false;
 }
 
