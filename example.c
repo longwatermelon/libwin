@@ -20,8 +20,8 @@ int main()
         if (libwin_should_close(win, &evt))
             running = false;
 
-        if (evt.type == Expose && evt.xexpose.count == 0)
-            libwin_redraw(win);
+
+        /* if (evt.type == Expose && evt.xexpose.count == 0) */
 
         if (evt.type == KeyPress && XLookupString(&evt.xkey, text, 255, &key, 0) == 1)
         {
@@ -35,6 +35,17 @@ int main()
         {
             printf("Mouse at %d, %d\n", evt.xbutton.x, evt.xbutton.y);
         }
+
+        libwin_clear(win);
+
+        /* libwin_set_fg(win, WhitePixel(win->dis, win->scr)); */
+        libwin_set_fg(win, libwin_color(255, 0, 0));
+        libwin_set_bg(win, BlackPixel(win->dis, win->scr));
+
+        XDrawLine(win->dis, win->win, win->gc, 100, 100, 200, 100);
+        XDrawString(win->dis, win->win, win->gc, 100, 300, "hello", 5);
+
+        libwin_update(win);
     }
 
     libwin_destroy_win(win);
