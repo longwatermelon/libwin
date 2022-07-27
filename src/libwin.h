@@ -8,7 +8,8 @@
 
 typedef enum
 {
-    LIBWIN_RESIZABLE = 1
+    LIBWIN_NONE = 0,
+    LIBWIN_UNRESIZABLE = 1
 } WindowFlags;
 
 struct Window

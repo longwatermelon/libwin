@@ -18,7 +18,7 @@ struct Window *libwin_create_win(const char *title, int width, int height, Windo
     XSetBackground(w->dis, w->gc, white);
     XSetBackground(w->dis, w->gc, black);
 
-    if (flags & LIBWIN_RESIZABLE)
+    if (flags & LIBWIN_UNRESIZABLE)
     {
         XSizeHints *hints = XAllocSizeHints();
         hints->flags = PMinSize | PMaxSize;

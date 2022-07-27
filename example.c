@@ -5,7 +5,7 @@
 
 int main()
 {
-    struct Window *win = libwin_create_win("Window test", 800, 600, LIBWIN_RESIZABLE);
+    struct Window *win = libwin_create_win("Window test", 800, 600, LIBWIN_UNRESIZABLE);
 
     XEvent evt;
     KeySym key;
