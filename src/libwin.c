@@ -1,7 +1,7 @@
 #include "libwin.h"
 #include <stdlib.h>
 
-struct Window *libwin_create_win(const char *title, int width, int height)
+struct Window *libwin_create_win(const char *title, int width, int height, WindowFlags flags)
 {
     struct Window *w = malloc(sizeof(struct Window));
     w->dis = XOpenDisplay(0);
@@ -17,6 +17,18 @@ struct Window *libwin_create_win(const char *title, int width, int height)
 
     XSetBackground(w->dis, w->gc, white);
     XSetBackground(w->dis, w->gc, black);
+
+    if (flags & LIBWIN_RESIZABLE)
+    {
+        XSizeHints *hints = XAllocSizeHints();
+        hints->flags = PMinSize | PMaxSize;
+
+        hints->min_width = width;
+        hints->max_width = width;
+        hints->min_height = height;
+        hints->max_height = height;
+        XSetWMNormalHints(w->dis, w->win, hints);
+    }
 
     XClearWindow(w->dis, w->win);
     XMapRaised(w->dis, w->win);
